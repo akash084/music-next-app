@@ -1,103 +1,195 @@
-import Image from "next/image";
+// "use client";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+// import { useEffect, useState } from "react";
+// import Home from "./home";
+// import { useSearchParams } from "next/navigation";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+// import LoginPage from "./auth/login/page";
+
+// export default function MainPage() {
+// 	const [token, setToken] = useState<string | null>(null);
+// 	const [refreshToken, setRefreshToken] = useState<string | null>(null);
+// 	const [loading, setLoading] = useState(true);
+
+// 	const params = useSearchParams();
+
+// 	useEffect(() => {
+// 		const refreshAccessToken = async () => {
+// 			const refreshToken = localStorage.getItem("refresh_token");
+// 			if (!refreshToken) {
+// 				console.error("No refresh token found.");
+// 				return;
+// 			}
+
+// 			const body = new URLSearchParams({
+// 				grant_type: "refresh_token",
+// 				refresh_token: refreshToken,
+// 				client_id: process.env.NEXT_PUBLIC_CLIENT_ID!,
+// 			});
+
+// 			try {
+// 				const res = await fetch("https://accounts.spotify.com/api/token", {
+// 					method: "POST",
+// 					headers: {
+// 						"Content-Type": "application/x-www-form-urlencoded",
+// 					},
+// 					body,
+// 				});
+
+// 				const data = await res.json();
+
+// 				if (res.ok && data.access_token) {
+// 					localStorage.setItem("access_token", data.access_token);
+// 					setToken(data.access_token);
+// 					console.log(data.access_token);
+
+// 					if (data.refresh_token) {
+// 						localStorage.setItem("refresh_token", data.refresh_token);
+// 						console.log(data.refresh_token);
+// 					}
+
+// 					const expiresAt = Math.floor(Date.now() / 1000) + data.expires_in;
+// 					localStorage.setItem("expires_at", expiresAt.toString());
+// 					console.log(localStorage.getItem("expires_at"));
+
+// 					console.log("Access token refreshed");
+// 				} else {
+// 					console.error("Token refresh error:", data);
+// 				}
+// 			} catch (error) {
+// 				console.error("Token refresh request failed:", error);
+// 			}
+// 		};
+
+// 		// if (!token) refreshAccessToken();
+// 	}, [params]);
+
+// 	// const refreshAccessToken = async () => {
+// 	// 	const refresh_token = localStorage.getItem("refresh_token");
+// 	// 	const access_token = localStorage.getItem("access_token");
+// 	// 	console.log("Stored access token:", access_token);
+// 	// 	console.log("Stored refresh token:", refresh_token);
+
+// 	// 	if (!refresh_token) return;
+
+// 	// 	const res = await fetch("/api/refresh", {
+// 	// 		method: "POST",
+// 	// 		headers: { "Content-Type": "application/json" },
+// 	// 		body: JSON.stringify({ refresh_token }),
+// 	// 	});
+
+// 	// 	const data = await res.json();
+
+// 	// 	if (res.ok && data.access_token) {
+// 	// 		localStorage.setItem("access_token", data.access_token);
+// 	// 		localStorage.setItem("refresh_token", data.refresh_token);
+// 	// 		setToken(data.access_token);
+// 	// 	}
+// 	// };
+
+// 	useEffect(() => {
+// 		// setRefreshToken(localStorage.getItem("refresh_token"));
+// 		setToken(localStorage.getItem("access_token"));
+// 		console.log(localStorage.getItem("expires_at"));
+// 		if (token) setLoading(false);
+// 	}, [token]);
+
+// 	useEffect(() => {
+// 		const accessToken = localStorage.getItem("access_token");
+// 		const expiresAt = parseInt(localStorage.getItem("expires_at") || "0");
+// 		const now = Math.floor(Date.now() / 1000);
+
+// 		if (accessToken && now < expiresAt) {
+// 			console.log("token already expired");
+// 			console.log(expiresAt);
+// 			// Token is still valid
+// 			// setToken(accessToken);
+// 		} else {
+// 			// Token expired or not present
+// 			// refreshAccessToken();
+// 			console.log("token not expired");
+// 			console.log(expiresAt);
+// 		}
+// 	}, []);
+
+// 	if (loading) return <p>Loading...</p>;
+
+// 	// return token ? <Home token={token} /> : <LoginPage />;
+// 	return token ? <Home token={token} /> : <LoginPage />;
+// }
+
+"use client";
+
+import { useEffect, useState } from "react";
+import Home from "./home";
+import LoginPage from "./auth/login/page";
+
+export default function MainPage() {
+	const [token, setToken] = useState<string | null>(null);
+	const [loading, setLoading] = useState(true);
+
+	// ✅ Refresh the access token using refresh_token
+	const refreshAccessToken = async () => {
+		const refreshToken = localStorage.getItem("refresh_token");
+		if (!refreshToken) return;
+
+		const body = new URLSearchParams({
+			grant_type: "refresh_token",
+			refresh_token: refreshToken,
+			client_id: process.env.NEXT_PUBLIC_CLIENT_ID!,
+		});
+
+		try {
+			const res = await fetch("https://accounts.spotify.com/api/token", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+				},
+				body,
+			});
+
+			const data = await res.json();
+
+			if (res.ok && data.access_token) {
+				localStorage.setItem("access_token", data.access_token);
+				setToken(data.access_token);
+
+				// Store new refresh token if returned
+				if (data.refresh_token) {
+					localStorage.setItem("refresh_token", data.refresh_token);
+				}
+
+				const expiresAt = Math.floor(Date.now() / 1000) + data.expires_in;
+				localStorage.setItem("expires_at", expiresAt.toString());
+			} else {
+				console.error("Failed to refresh access token:", data);
+			}
+		} catch (err) {
+			console.error("Refresh token request failed:", err);
+		}
+	};
+
+	// ✅ On mount: check token validity and refresh if needed
+	useEffect(() => {
+		const checkToken = async () => {
+			const accessToken = localStorage.getItem("access_token");
+			const expiresAt = parseInt(localStorage.getItem("expires_at") || "0");
+			const now = Math.floor(Date.now() / 1000);
+
+			if (accessToken && now < expiresAt) {
+				// Token is still valid
+				setToken(accessToken);
+			} else if (localStorage.getItem("refresh_token")) {
+				// Token expired → try to refresh
+				await refreshAccessToken();
+			}
+			setLoading(false);
+		};
+		console.log(localStorage.getItem("expires_at"));
+		checkToken();
+	}, []);
+
+	if (loading) return <p>Loading...</p>;
+
+	return token ? <Home token={token} /> : <LoginPage />;
 }
