@@ -1,47 +1,98 @@
-import React, { useEffect } from "react";
-
-import { Icon } from "@iconify/react/dist/iconify.js";
-// import { getDevices } from "@/app/api/player/player";
+import { Icon } from "@iconify/react";
+import { useSpotifyPlayer } from "@/app/hooks/useSpotifyPlayer";
+import { useState } from "react";
 
 interface Props {
 	token: string | null;
 }
 
 const Player = ({ token }: Props) => {
-	useEffect(() => {
-		// if (token) console.log(getDevices(token));
-		// if (code) console.log(getToken(code));
-	}, [token]);
+	const { player, deviceId } = useSpotifyPlayer(token);
+	const [isPlaying, setIsPlaying] = useState(false);
+	const playTrack = async () => {
+		if (!deviceId || !token) return;
+
+		// Transfer playback first
+		await fetch("https://api.spotify.com/v1/me/player", {
+			method: "PUT",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				device_ids: [deviceId],
+				play: false,
+			}),
+		});
+
+		// Then load track
+		await fetch(
+			`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
+			{
+				method: "PUT",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					uris: ["spotify:track:6usohdchdzW9oML7VC4Uhk"],
+				}),
+			}
+		);
+	};
+
+	const togglePlay = () => {
+		setIsPlaying((prev) => !prev);
+		if (!player) return;
+		player.togglePlay().then(() => console.log("toggel player"));
+		// player.togglePlay().then(() => playTrack());
+		// playTrack();
+	};
+
 	return (
-		<div className="w-fullh-60 sticky bottom-0 z-61 bg-base-100 w-full border-t-2">
-			<div className="content flex flex-row justify-between gap-2 items-center">
-				<div className="track-container flex flex-row items-center gap-2">
-					<div className="track-image w-10 h-10 bg-black border-1 rounded-sm"></div>
-					<div className="track-details primaryFont flex flex-col text-sm">
-						<span className="track-title font-medium">Lose control</span>
-						<span className="track-artist opacity-60 text-xs">Teddy Swims</span>
+		<div className="sticky bottom-0 z-[61] bg-base-100 border-t-2">
+			<div className="content flex flex-row justify-between gap-2 items-center px-4 py-2">
+				{/* Track Info */}
+				<div className="track-container flex items-center gap-2">
+					<div className="track-image w-10 h-10 bg-black rounded-sm border" />
+					<div className="track-details flex flex-col text-sm">
+						<span className="font-medium">Lose Control</span>
+						<span className="text-xs opacity-60">Teddy Swims</span>
 					</div>
 					<Icon icon="qlementine-icons:menu-dots-16" width="20" height="20" />
 				</div>
 
-				<div className="player-container pb-3 flex flex-col">
-					<div className="player-action flex flex-row justify-center items-center gap-2 p-4 justify-self-center">
+				{/* Player Controls */}
+				{/* <div className="p-4 bg-gray-900 text-white flex gap-2">
+					<button
+						onClick={playTrack}
+						className="bg-green-600 px-4 py-2 rounded">
+						Load Track
+					</button>
+				</div> */}
+				<div className="player-container flex flex-col items-center pb-3">
+					<div className="player-action flex items-center gap-3 p-2">
 						<Icon icon="mingcute:shuffle-line" width="18" height="18" />
 						<Icon icon="fluent:previous-20-filled" width="18" height="18" />
-						<div className="ring-1 p-1.5 rounded-full w-7.5 justify-self-center">
-							<Icon
-								icon="line-md:play-filled"
-								width="18"
-								height="18"
-								className="justify-self-center"
-							/>
-						</div>
+						<button onClick={togglePlay}>
+							{isPlaying ? (
+								<div className="ring-1 p-1.5 rounded-full">
+									<Icon icon="line-md:pause" width="18" height="18" />{" "}
+								</div>
+							) : (
+								<div className="ring-1 p-1.5 rounded-full">
+									<Icon icon="line-md:play-filled" width="18" height="18" />
+								</div>
+							)}
+						</button>
 						<Icon icon="fluent:next-20-filled" width="18" height="18" />
 						<Icon icon="ic:round-loop" width="18" height="18" />
 					</div>
-					<div className="player-progress-bar w-lg border-2 self-center rounded-full"></div>
+					<div className="player-progress-bar w-75 h-1 bg-gray-300 rounded-full self-center" />
 				</div>
-				<div className="tracks-option-container flex flex-row items-center gap-2">
+
+				{/* Track Options */}
+				<div className="tracks-option-container flex items-center gap-2">
 					<Icon icon="mingcute:volume-fill" width="18" height="18" />
 					<Icon icon="icon-park-solid:like" width="16" height="16" />
 					<Icon

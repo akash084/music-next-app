@@ -1,11 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-
 export default function LoginPage() {
-	const router = useRouter();
-
 	const generateRandomString = (len: number) => {
 		const possible =
 			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -27,7 +22,8 @@ export default function LoginPage() {
 	const startLogin = async () => {
 		const clientId = process.env.NEXT_PUBLIC_CLIENT_ID!;
 		const redirectUri = "http://localhost:3000/auth/callback";
-		const scope = "user-read-private user-read-email";
+		const scope =
+			"user-read-private user-read-email user-read-playback-state streaming";
 
 		const codeVerifier = generateRandomString(64);
 		localStorage.setItem("code_verifier", codeVerifier);

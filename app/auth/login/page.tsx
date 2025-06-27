@@ -23,7 +23,8 @@ export default function LoginPage() {
 	const startLogin = async () => {
 		const clientId = process.env.NEXT_PUBLIC_CLIENT_ID!;
 		const redirectUri = "http://localhost:3000/auth/callback";
-		const scope = "user-read-private user-read-email";
+		const scope =
+			"user-read-private user-read-email user-read-playback-state streaming";
 
 		const codeVerifier = generateRandomString(64);
 		localStorage.setItem("code_verifier", codeVerifier);
