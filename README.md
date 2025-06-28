@@ -23,8 +23,28 @@ This is a music playing and exploring app made from NextJS which is still in dev
 
 ## App functions
 1. Sign In: From Login page, sign in to your spotify account.
-2. Navigation: From the top Nav menue, you can search for albums, artists or tracks and you can view your account details and change the theme from the top right menue items.
+2. Navigation and Search: From the top Nav menue, you can search for albums, artists or tracks and you can view your account details and change the theme from the top right menue items.
 3. Hamburger menu navigation: From the left hamburger navigation menue, you can navigate to your Liked, Bookmarks, Playlists, Artists and Explore feature.
+4. Play music: From the player bar at the bottom of the screen you can play and controll music settings.
+5. Expolre Albums, Tracks and Artists: From the main section of the app you can explore the latest Albums, popular Artists, and latest Tracks.
+
+## Installation
+1. Clone the repository
+```
+git clone https://github.com/akash084/music-next-app
+cd music-next-app
+```
+3. Install dependencies
+```
+    npm install
+```
+   
+## Technologies Used
+1. Next JS: Open-source React framework. Used for fullstack development.
+2. TypeScript: To define custom types.
+3. Tailwind CSS: Utility-first CSS framework. Used for styling UI.
+4. daisyUI: A component library for Tailwind CSS. Used for useable tailwind UI components.
+5. Iconify: Used to get Icons for UI.
 
 ## Disclaimer
-This is not a product for selling purpose. This is my personal project, made for just fun and educational purpose. All the images, music, artists, album and its details used in this application is from Spotify API and its owner is Spotify. 
+This is not a product for commercial purpose. This is my personal project, made for just fun and educational purpose. All the images, music, artists, album and its details used in this application is from Spotify API and all the rights goes to Spotify. 
