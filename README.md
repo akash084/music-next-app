@@ -34,11 +34,14 @@ This is a music playing and exploring app made from NextJS which is still in dev
 git clone https://github.com/akash084/music-next-app
 cd music-next-app
 ```
-3. Install dependencies
+2. Install dependencies
 ```
     npm install
 ```
-   
+ 3. Run app
+```
+    npm run dev
+```  
 ## Technologies Used
 1. Next JS: Open-source React framework. Used for fullstack development.
 2. TypeScript: To define custom types.
