@@ -9,10 +9,12 @@ interface Props {
 const Player = ({ token }: Props) => {
 	const { player, deviceId } = useSpotifyPlayer(token);
 	const [isPlaying, setIsPlaying] = useState(false);
+	const [hasPlayed, setHasPlayed] = useState(false); // 👈 Added flag
+
 	const playTrack = async () => {
 		if (!deviceId || !token) return;
 
-		// Transfer playback first
+		// Transfer playback to this device
 		await fetch("https://api.spotify.com/v1/me/player", {
 			method: "PUT",
 			headers: {
@@ -25,7 +27,7 @@ const Player = ({ token }: Props) => {
 			}),
 		});
 
-		// Then load track
+		// Start playback
 		await fetch(
 			`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
 			{
@@ -35,18 +37,23 @@ const Player = ({ token }: Props) => {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					uris: ["spotify:track:6usohdchdzW9oML7VC4Uhk"],
+					uris: ["spotify:track:6usohdchdzW9oML7VC4Uhk"], // You can make this dynamic later
 				}),
 			}
 		);
 	};
 
-	const togglePlay = () => {
-		setIsPlaying((prev) => !prev);
+	const togglePlay = async () => {
 		if (!player) return;
-		player.togglePlay().then(() => console.log("toggel player"));
-		// player.togglePlay().then(() => playTrack());
-		// playTrack();
+
+		if (!hasPlayed) {
+			await playTrack(); // 👈 First click starts playback
+			setHasPlayed(true);
+			setIsPlaying(true);
+		} else {
+			await player.togglePlay(); // 👈 After that toggle
+			setIsPlaying((prev) => !prev);
+		}
 	};
 
 	return (
@@ -63,27 +70,18 @@ const Player = ({ token }: Props) => {
 				</div>
 
 				{/* Player Controls */}
-				{/* <div className="p-4 bg-gray-900 text-white flex gap-2">
-					<button
-						onClick={playTrack}
-						className="bg-green-600 px-4 py-2 rounded">
-						Load Track
-					</button>
-				</div> */}
 				<div className="player-container flex flex-col items-center pb-3">
 					<div className="player-action flex items-center gap-3 p-2">
 						<Icon icon="mingcute:shuffle-line" width="18" height="18" />
 						<Icon icon="fluent:previous-20-filled" width="18" height="18" />
 						<button onClick={togglePlay}>
-							{isPlaying ? (
-								<div className="ring-1 p-1.5 rounded-full">
-									<Icon icon="line-md:pause" width="18" height="18" />{" "}
-								</div>
-							) : (
-								<div className="ring-1 p-1.5 rounded-full">
-									<Icon icon="line-md:play-filled" width="18" height="18" />
-								</div>
-							)}
+							<div className="ring-1 p-1.5 rounded-full">
+								<Icon
+									icon={isPlaying ? "line-md:pause" : "line-md:play-filled"}
+									width="18"
+									height="18"
+								/>
+							</div>
 						</button>
 						<Icon icon="fluent:next-20-filled" width="18" height="18" />
 						<Icon icon="ic:round-loop" width="18" height="18" />

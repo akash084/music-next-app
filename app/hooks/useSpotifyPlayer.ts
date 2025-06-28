@@ -58,7 +58,7 @@ const transferPlayback = async (deviceId: string, token: string) => {
 		},
 		body: JSON.stringify({
 			device_ids: [deviceId],
-			play: true,
+			play: false,
 		}),
 	});
 };
