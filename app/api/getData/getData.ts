@@ -39,6 +39,7 @@ export type AlbumImage = {
 }[];
 
 export type Track = {
+	album: Album;
 	id: string;
 	name: string;
 	disc_number: number;
@@ -101,7 +102,7 @@ export async function artistApi(token: string | null, ids: string[]) {
 export async function tracksApi(token: string | null, album: Album) {
 	try {
 		const res = await fetch(
-			`https://api.spotify.com/v1/albums/${album["id"]}/tracks`,
+			`https://api.spotify.com/v1/albums/${album.id}/tracks`,
 			{
 				method: "GET",
 				headers: {
@@ -110,9 +111,33 @@ export async function tracksApi(token: string | null, album: Album) {
 			}
 		);
 		const data = await res.json();
-		const tracksList = data.items;
-		return tracksList;
+		return data.items || []; // ✅ fallback to empty array
 	} catch (err) {
 		console.error("Failed to fetch tracks:", err);
+		return [];
+	}
+}
+
+export async function albumTracksApi(token: string | null, id: string) {
+	if (!token) return null;
+
+	try {
+		const res = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!res.ok) {
+			console.error("Spotify track fetch failed:", res.status);
+			return null;
+		}
+
+		const track = await res.json();
+		return track; // ✅ no `.items`
+	} catch (err) {
+		console.error("Failed to fetch track:", err);
+		return null;
 	}
 }
