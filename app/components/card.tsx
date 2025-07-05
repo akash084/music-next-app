@@ -19,7 +19,7 @@ const Card = ({ album, isMenuOpen }: CardProps) => {
 				src={album.images[0]?.url}
 				alt={album.name}
 				className={`${
-					isMenuOpen ? "w-47" : "w-55"
+					isMenuOpen ? "lg:w-47" : "lg:w-55"
 				} transition-all ease-in-out object-cover`}
 			/>
 			<div className="p-2 flex flex-col text-xs">

@@ -9,28 +9,43 @@ interface Props {
 const NavBar = ({ isMenuOpen }: Props) => {
 	return (
 		<>
-			<div className="nav sticky top-0 z-50 bg-base-100 primaryFont py-2 flex flex-row items-center flex-wrap justify-between gap-2">
+			<div className="nav sticky top-0 z-50 bg-base-100 primaryFont py-2 flex flex-row items-center flex-wrap lg:justify-between justify-center gap-2">
 				<div
 					className={`flex transition-all ease-in-out ${
-						isMenuOpen ? "gap-34" : "gap-18"
-					}`}>
+						isMenuOpen ? "lg:gap-34" : "lg:gap-18"
+					} gap-2 flex-row items-center self-center sm:justify-between`}>
 					<Icon
 						className="colorPrimary hover:cursor-pointer"
 						icon="bi:apple-music"
 						width="35"
 						height="35"
 					/>
-					<div className="w-96 h-9 flex gap-2 border-2 border-solid rounded-md">
+					<div className="lg:w-96 lg:h-9 lg:flex gap-2 border-2 border-solid rounded-md hidden">
 						<button>
 							<Icon
 								className="icon mx-2 hover:cursor-pointer"
 								icon="tabler:search"
 							/>
 						</button>
+
 						<input
 							type="text"
 							className="w-full text-sm outline-none primaryFont"
 							placeholder="Search your Favourite Song, Artist or Albums"
+						/>
+					</div>
+					<div className="w-65 h-9 flex gap-2 border-2 border-solid rounded-md lg:hidden">
+						<button>
+							<Icon
+								className="icon mx-2 hover:cursor-pointer"
+								icon="tabler:search"
+							/>
+						</button>
+
+						<input
+							type="text"
+							className="w-full text-sm outline-none primaryFont"
+							placeholder="Search your Favourite Song..."
 						/>
 					</div>
 				</div>
@@ -63,6 +78,41 @@ const NavBar = ({ isMenuOpen }: Props) => {
 						</ul>
 					</div>
 					<ThemeToggle />
+					<ul className="visible lg:hidden flex flex-row gap-2 items-center text-sm font-medium overflow-hidden transition-all ease-in-out ring-2 rounded-md p-1">
+						<a>
+							<li className="flex gap-2 items-center">
+								<Icon icon="mingcute:playlist-fill" width="20" height="20" />
+							</li>
+						</a>
+						<a href="">
+							<li className="flex gap-2 items-center">
+								<Icon
+									icon="material-symbols:artist-rounded"
+									width="20"
+									height="20"
+								/>
+							</li>
+						</a>
+						<a href="">
+							<li className="flex gap-2 items-center">
+								<Icon icon="icon-park-solid:like" width="16" height="16" />
+							</li>
+						</a>
+						<a href="">
+							<li className="flex gap-2 items-center">
+								<Icon
+									icon="material-symbols:bookmark-rounded"
+									width="18"
+									height="18"
+								/>
+							</li>
+						</a>
+						<a href="">
+							<li className="flex gap-2 items-center">
+								<Icon icon="mdi:magic" width="18" height="18" />
+							</li>
+						</a>
+					</ul>
 				</div>
 			</div>
 		</>

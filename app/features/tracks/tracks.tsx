@@ -29,7 +29,7 @@ const Tracks = ({ isMenuOpen, token }: Props) => {
 	return (
 		<div className="flex flex-col flex-wrap gap-4">
 			<span className="secondaryFont text-3xl font-medium">Latest Tracks</span>
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				{tracks.slice(0, 12).map((track: Track) => (
 					<div
 						className="flex flex-row gap-2 items-center transition-transform transform hover:-translate-y-1 hover:shadow-lg"
@@ -45,9 +45,7 @@ const Tracks = ({ isMenuOpen, token }: Props) => {
 								albums.slice(0, 1)[0].images[2]?.url || "/fallback.jpg"
 							}></Image>
 						<div className="primaryFont flex flex-col gap-lg w-55">
-							<span className="text-sm font-medium truncate ">
-								{track.name}
-							</span>
+							<span className="text-sm font-medium truncate">{track.name}</span>
 							<span className="opacity-60 text-xs">
 								{track.artists[0].name}
 							</span>

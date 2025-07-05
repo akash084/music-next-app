@@ -18,10 +18,10 @@ export default function Home({ token }: Props) {
 
 	return (
 		<>
-			<div className="content">
+			<div className="content lg:mx-[120px] mx-[40px]">
 				<NavBar isMenuOpen={menuOpen} />
-				<div className="flex gap-20 my-4">
-					<div className="h-60 sticky top-18 z-60 bg-base-100">
+				<div className="flex gap-20 lg:my-4">
+					<div className="h-60 sticky top-18 z-60 bg-base-100 hidden lg:block">
 						<Menue open={menuOpen} toggleOpen={toggleMenu} />
 					</div>
 					<div className="body flex flex-col gap-14 w-full my-10">

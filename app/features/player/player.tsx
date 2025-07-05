@@ -148,9 +148,9 @@ const Player = ({ token }: Props) => {
 
 	return (
 		<div className="sticky bottom-0 z-[61] bg-base-100 border-t-2">
-			<div className="content grid grid-cols-3  gap-2 items-center px-4 py-2">
+			<div className="content mx-[40px] lg:mx-[120px] grid grid-cols-2 lg:grid-cols-3  gap-2 items-center py-2">
 				{/* Track Info */}
-				<div className="track-container flex items-center gap-2">
+				<div className="track-container flex flex-row items-center gap-2">
 					<div className="track-image w-10 h-10 rounded-sm">
 						<Image
 							className="rounded-sm object-cover"
@@ -161,18 +161,24 @@ const Player = ({ token }: Props) => {
 						/>
 					</div>
 					<div className="track-details flex flex-col text-sm">
-						<span className="font-medium">{currentTrack?.name}</span>
+						<span className="font-medium truncate lg:w-40">
+							{currentTrack?.name}
+						</span>
 						<span className="text-xs opacity-60">
 							{currentTrack?.artists?.[0]?.name || "Unknown Artist"}
 						</span>
 					</div>
-					<Icon icon="qlementine-icons:menu-dots-16" width="20" height="20" />
+					<div className="hidden lg:block">
+						<Icon icon="qlementine-icons:menu-dots-16" width="20" height="20" />
+					</div>
 				</div>
 
 				{/* Player Controls */}
-				<div className="player-container flex flex-col items-center pb-3">
+				<div className="player-container flex flex-col lg:items-center lg:pb-3 items-end">
 					<div className="player-action flex items-center gap-3 p-2">
-						<Icon icon="mingcute:shuffle-line" width="18" height="18" />
+						<div className="hidden lg:block">
+							<Icon icon="mingcute:shuffle-line" width="18" height="18" />
+						</div>
 						<button onClick={playPrevious}>
 							<Icon icon="fluent:previous-20-filled" width="18" height="18" />
 						</button>
@@ -188,13 +194,15 @@ const Player = ({ token }: Props) => {
 						<button onClick={playNext}>
 							<Icon icon="fluent:next-20-filled" width="18" height="18" />
 						</button>
-						<Icon icon="ic:round-loop" width="18" height="18" />
+						<div className="hidden lg:block">
+							<Icon icon="ic:round-loop" width="18" height="18" />
+						</div>
 					</div>
-					<div className="player-progress-bar w-75 h-1 bg-gray-300 rounded-full self-center" />
+					<div className="player-progress-bar w-75 h-1 bg-gray-300 rounded-full self-center hidden md:block" />
 				</div>
 
 				{/* Track Options */}
-				<div className="tracks-option-container justify-self-end flex items-center gap-2">
+				<div className="tracks-option-container justify-self-end lg:flex items-center gap-2 hidden">
 					<Icon icon="mingcute:volume-fill" width="18" height="18" />
 					<Icon icon="icon-park-solid:like" width="16" height="16" />
 					<Icon

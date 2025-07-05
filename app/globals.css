@@ -28,10 +28,10 @@
 	border: solid #ff0a54;
 }
 
-.content {
-	margin: 0 120px;
-}
-
 a:hover {
 	color: #ff0a54;
+}
+
+button:hover {
+	cursor: pointer;
 }
